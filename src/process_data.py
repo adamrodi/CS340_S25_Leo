@@ -1,11 +1,12 @@
-module_name_gl = 'module_two'
+module_name_gl = 'process_data'
 
 '''
 Version: v0.1
 
 Description:
-    This is the module two for the project. It contains the parent class 2
-    and child class 2 as defined in the requirements.
+    This is the module for processing data. It contains functions and classes
+    that help in manipulating and transforming data for further analysis or
+    visualization.
 
 Authors:
     Adam Rodi
@@ -14,7 +15,7 @@ Authors:
     Max Del Rio
 
 Date Created     :  4-6-2025
-Date Last Updated:  4-6-2025
+Date Last Updated:  4-7-2025
 
 Doc:
     <***>
@@ -56,29 +57,49 @@ if __name__ == "__main__":
 
 #Class definitions Start Here
 
-class ParentClassTwo:
+class DataProcessor:
     def __init__(self):
         pass
     #
 
     def parent_method(self):
-        print("This is a method from ParentClassTwo.")
+        print("This is a method from DataProcessor.")
     #
 #
 
-class ChildClassTwo(ParentClassTwo):
+class dataHandler(DataProcessor):
     def __init__(self):
         super().__init__()
     #
 
-    def child_method(self):
-        print("This is a method from ChildClassTwo.")
+    def read_data(self, file_path):
+        """
+        Reads data from a specified file path.
+        """
+        # Implement the logic to read data
+        pass
+    #
+
+    def convertToPickle(self, data):
+        """
+        Converts data to pickle format.
+        """
+        # Implement the logic to convert data to pickle
+        pass
+    #
+
+    def uploadFromPickle(self, file_path):
+        """
+        Uploads data from a pickle file.
+        """
+        # Implement the logic to upload data from pickle
+        pass
     #
 #
 
 
 #Function definitions Start Here
-def module_two():
+def process_data():
     pass
 #
 
@@ -86,6 +107,6 @@ def module_two():
 if __name__ == "__main__":
     # Code to run when this module is executed directly
     print(f"Running {module_name_gl} module directly")
-    module_two()
+    process_data()
     # Add any testing or demonstration code here
 #
