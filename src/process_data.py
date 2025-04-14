@@ -29,6 +29,9 @@ if __name__ == "__main__":
    import os
    #os.chdir("./../..")
 #
+import numpy as np
+import pandas as pd
+from itertools import permutations, combinations
 
 #custom imports
 
@@ -57,43 +60,58 @@ if __name__ == "__main__":
 
 #Class definitions Start Here
 
-class DataProcessor:
-    def __init__(self):
-        pass
+class VisualizeStats:
+    def __init__(self, config=None):
+        self.config = config or {}
     #
 
-    def parent_method(self):
-        print("This is a method from DataProcessor.")
-    #
 #
 
-class dataHandler(DataProcessor):
+class StatsAnalyzer(VisualizeStats):
     def __init__(self):
         super().__init__()
     #
 
-    def read_data(self, file_path):
-        """
-        Reads data from a specified file path.
-        """
-        # Implement the logic to read data
-        pass
+    def joint_counts(self, df, col1, col2):
+        return pd.crosstab(df[col1], df[col2])
     #
 
-    def convertToPickle(self, data):
-        """
-        Converts data to pickle format.
-        """
-        # Implement the logic to convert data to pickle
-        pass
+    def joint_probabilities(self, df, col1, col2):
+        counts = self.joint_counts(df, col1, col2)
+        return counts / counts.values.sum()
     #
 
-    def uploadFromPickle(self, file_path):
-        """
-        Uploads data from a pickle file.
-        """
-        # Implement the logic to upload data from pickle
-        pass
+    def conditional_probabilities(self, df, col1, col2):
+        return pd.crosstab(df[col1], df[col2], normalize='index')
+    #
+
+    def basic_stats(self, df, column):
+        return {
+            'mean': df[column].mean(),
+            'median': df[column].median(),
+            'std': df[column].std()
+        }
+    #
+
+    def vector_ops(self, v1, v2):
+        v1 = np.array(v1)
+        v2 = np.array(v2)
+        return {
+            'dot_product': np.dot(v1, v2),
+            'angle_deg': np.degrees(np.arccos(np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2)))),
+            'orthogonal': np.isclose(np.dot(v1, v2), 0),
+            'unit_v1': v1 / np.linalg.norm(v1),
+            'projection_v1_on_v2': np.dot(v1, v2) / np.dot(v2, v2) * v2
+        }
+    #
+
+    def categorical_analysis(self, df, column):
+        values = df[column].unique()
+        return {
+            'unique': values,
+            'permutations': list(permutations(values, 2)),
+            'combinations': list(combinations(values, 2))
+        }
     #
 #
 
