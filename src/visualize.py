@@ -29,6 +29,9 @@ if __name__ == "__main__":
    import os
    #os.chdir("./../..")
 #
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
 
 #custom imports
 
@@ -61,12 +64,21 @@ class VisualizationHandler:
     """
 
     """
-    def __init__(self):
-        pass
+    def __init__(self, config=None):
+        self.config = config or {}
     #
 
-    def parent_method(self):
-        print("This is a method from ParentClassOne.")
+    def visualize_column(self, df, column):
+        df[column].plot.line()
+        plt.title(f"Line Plot of {column}")
+        plt.xlabel(column)
+        plt.ylabel("Values")
+        plt.grid(True)
+        plt.show()
+    #
+
+    def simple_query(self, df, column, value):
+        return df[df[column] == value]
     #
 #
 
@@ -74,20 +86,25 @@ class Plot(VisualizationHandler):
     """
     
     """
-    def __init__(self):
+    def __init__(self, filepath, config=None):
         super().__init__()
+        self.df = pd.read_csv(filepath)
     #
 
-    def violin(self):
-        pass
+    def plot(self, column_x, column_y=None, method='violin'):
+        if method == 'violin':
+            sns.violinplot(y=self.df[column_x])
+        elif method == 'box':
+            sns.boxplot(y=self.df[column_x])
+        elif method == 'scatter':
+            sns.scatterplot(x=self.df[column_x], y=self.df[column_y])
+        plt.title(f"{method.capitalize()} Plot")
+        plt.grid(True)
+        plt.show()
     #
 
-    def histogram(self):
-        pass
-    #
-
-    def getBoolIndex(self):
-        pass
+    def getBoolIndex(self, conditions):
+        return self.df.query(conditions)
     #
 
 #
