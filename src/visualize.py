@@ -58,7 +58,11 @@ import process_data as prd
 #%% DECLARATIONS                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #Global declarations Start Here
+global outputPath
+global inputPath
 
+outputPath = Path(__file__).parent.parent / 'Output'
+inputPath = Path(__file__).parent.parent / 'Input'
 
 
 #Class definitions Start Here
@@ -118,8 +122,11 @@ def visualize():
     pass
 #
 
-def visualize_yearly_volume_average(avgYearlyVolume):
-    #   TO DO: Exception handler to check if "Output" path exists
+def visualize_yearly_volume_average(fileName):
+    global outputPath
+
+    #   TO DO: exception handler for seeing if file already exists
+    avgYearlyVolume = prd.read_pickle(fileName)
     plt.figure(figsize=(10,6))
     plt.plot(avgYearlyVolume['Year'], avgYearlyVolume['Volume'], marker='o', linestyle='-', color='blue')
     plt.title('Average Yearly Bitcoin Trading Volume Per Minute', fontsize='14')
@@ -128,8 +135,7 @@ def visualize_yearly_volume_average(avgYearlyVolume):
     plt.xticks(avgYearlyVolume['Year'])
     plt.yticks(np.arange(0,12,step=1))
     plt.grid(True)
-    outputPath = Path(__file__).parent.parent / 'Output' / 'YearlyVolumeAvg.png'
-    plt.savefig(outputPath, dpi=300, bbox_inches='tight')
+    plt.savefig((outputPath / 'YearlyVolumeAvg.png'), dpi=300, bbox_inches='tight')
 #
 
 #%% SELF-RUN               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -139,5 +145,4 @@ if __name__ == "__main__":
     visualize()
 
     # Add any testing or demonstration code here
-    visualize_yearly_volume_average(prd.calc_yearly_volume_avg(prd.process_data('Input/btcusd_1-min_data.csv')))
 #

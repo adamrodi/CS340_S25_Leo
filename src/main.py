@@ -31,7 +31,8 @@ if __name__ == "__main__":
 #
 
 #custom imports
-
+import process_data as prd
+import visualize as vs
 
 #other imports
 
@@ -69,5 +70,8 @@ def main():
 if __name__ == "__main__":
     
     print(f"\"{module_name_gl}\" module begins.")
-    
-    main()
+
+    #   demo code
+    fileName = 'YearlyVolumeAvg.pkl'
+    prd.export_yearly_volume_avg(fileName)
+    vs.visualize_yearly_volume_average(fileName)

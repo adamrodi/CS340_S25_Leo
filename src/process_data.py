@@ -33,6 +33,7 @@ import numpy as np
 import pandas as pd
 from itertools import permutations, combinations
 from pathlib import Path
+import pickle
 
 #custom imports
 
@@ -56,7 +57,11 @@ from pathlib import Path
 #%% DECLARATIONS                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #Global declarations Start Here
+global outputPath
+global inputPath
 
+outputPath = Path(__file__).parent.parent / 'Output'
+inputPath = Path(__file__).parent.parent / 'Input'
 
 
 #Class definitions Start Here
@@ -118,26 +123,43 @@ class StatsAnalyzer(VisualizeStats):
 
 
 #Function definitions Start Here
-def process_data(filename):
-    with open(filename, "r") as csvFile:
-        data = pd.read_csv(csvFile)
+def read_csv_data(fileName):
+    global inputPath
+    #   TO DO: exception handling if file doesn't exist
+
+    with open((inputPath / fileName), "r") as file:
+        data = pd.read_csv(file)
         return data
 #
 
-def calc_yearly_volume_avg(data):
+def calc_yearly_volume_avg(fileName):
+    global outputPath
+
+    data = read_csv_data(fileName)
     data['year'] = pd.to_datetime(data['datetime']).dt.year
     avgYearlyVolume = data.groupby('year')['Volume'].mean().reset_index()
     avgYearlyVolume.columns = ['Year', 'Volume']
-    return avgYearlyVolume
+
+    #   Takes avgYearlyVolume dataframe and exports as a binary pickle file, for later use (e.g. exporting as a graph, csv, etc)
+    with open((outputPath / 'YearlyVolumeAvg.pkl'), "wb") as file:
+        pickle.dump(avgYearlyVolume, file)
 #
 
-def export_yearly_volume_avg(volumeAvg):
-    #   Takes the path the script file is currently in, gets the parent directory (src folder), then gets the parent directory of the src folder (CS340_S25_Leo folder)
-    #   then creates a csv file in Output folder.
-    #   TO DO:  add exception handler to check if "Output" path exists
+def export_yearly_volume_avg(fileName):
+    global outputPath
 
-    outputPath = Path(__file__).parent.parent / 'Output' / 'YearlyVolumeAvg.csv'
-    volumeAvg.to_csv(outputPath, index=False)
+    #   TO DO: exception handler for seeing if file already exists
+    read_pickle(fileName).to_csv((outputPath / 'YearlyVolumeAvg.csv'), index=False)
+#
+
+def read_pickle(fileName):
+    global outputPath
+
+    #   reads a binary pickle file and returns the stored data
+    #   TO DO: exception handling if file doesnt exist
+    with open((outputPath / fileName), 'rb') as file:
+        data = pickle.load(file)
+    return data
 #
 
 #%% SELF-RUN               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -147,7 +169,4 @@ if __name__ == "__main__":
     print(f"Running {module_name_gl} module directly")
 
     # Add any testing or demonstration code here
-    filename = 'Input/btcusd_1-min_data.csv'
-    yearlyVolumeAvg = calc_yearly_volume_avg(process_data(filename))
-    export_yearly_volume_avg(yearlyVolumeAvg)
 #
