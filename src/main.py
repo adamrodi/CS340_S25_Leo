@@ -72,6 +72,6 @@ if __name__ == "__main__":
     print(f"\"{module_name_gl}\" module begins.")
 
     #   demo code
-    fileName = 'YearlyVolumeAvg.pkl'
-    prd.export_yearly_volume_avg(fileName)
+    fileName = 'YearlyVolumeAvg'
+    prd.export_csv(fileName, "YearlyVolumeAvg")
     vs.visualize_yearly_volume_average(fileName)

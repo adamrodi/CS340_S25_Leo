@@ -70,7 +70,7 @@ class VisualizeStats:
     def __init__(self, config=None):
         self.config = config or {}
     #
-
+    
 #
 
 class StatsAnalyzer(VisualizeStats):
@@ -123,15 +123,44 @@ class StatsAnalyzer(VisualizeStats):
 
 
 #Function definitions Start Here
+
+#   READ FUNCTIONS
+def read_pickle(fileName):
+    global outputPath
+
+    #   TO DO: exception handling if file doesnt exist
+    with open((outputPath / (fileName + '.pkl')), 'rb') as file:
+        data = pickle.load(file)
+    return data
+#
+
 def read_csv_data(fileName):
     global inputPath
+    
     #   TO DO: exception handling if file doesn't exist
-
     with open((inputPath / fileName), "r") as file:
         data = pd.read_csv(file)
         return data
 #
 
+#   EXPORT FUNCTIONS
+def export_pickle(data, fileName):
+    global outputPath
+
+    # TO DO: exception if file already exists
+    with open((outputPath / (fileName + '.pkl')), "wb") as file:
+        pickle.dump(data, file)
+#
+
+def export_csv(data, fileName):
+    global outputPath
+
+    # TO DO: exception if file already exists
+    read_pickle(fileName).to_csv((outputPath / (fileName + '.csv')), index=False)
+#
+
+
+#   CALC FUNCTIONS
 def calc_yearly_volume_avg(fileName):
     global outputPath
 
@@ -139,27 +168,8 @@ def calc_yearly_volume_avg(fileName):
     data['year'] = pd.to_datetime(data['datetime']).dt.year
     avgYearlyVolume = data.groupby('year')['Volume'].mean().reset_index()
     avgYearlyVolume.columns = ['Year', 'Volume']
-
-    #   Takes avgYearlyVolume dataframe and exports as a binary pickle file, for later use (e.g. exporting as a graph, csv, etc)
-    with open((outputPath / 'YearlyVolumeAvg.pkl'), "wb") as file:
-        pickle.dump(avgYearlyVolume, file)
-#
-
-def export_yearly_volume_avg(fileName):
-    global outputPath
-
-    #   TO DO: exception handler for seeing if file already exists
-    read_pickle(fileName).to_csv((outputPath / 'YearlyVolumeAvg.csv'), index=False)
-#
-
-def read_pickle(fileName):
-    global outputPath
-
-    #   reads a binary pickle file and returns the stored data
-    #   TO DO: exception handling if file doesnt exist
-    with open((outputPath / fileName), 'rb') as file:
-        data = pickle.load(file)
-    return data
+    
+    export_pickle(avgYearlyVolume, 'YearlyVolumeAvg')
 #
 
 #%% SELF-RUN               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
