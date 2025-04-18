@@ -73,5 +73,11 @@ if __name__ == "__main__":
 
     #   demo code
     fileName = 'YearlyVolumeAvg'
-    prd.export_csv(fileName, "YearlyVolumeAvg")
-    vs.visualize_yearly_volume_average(fileName)
+    try:
+        prd.export_csv(fileName)
+        vs.visualize_yearly_volume_average(fileName)
+    except Exception as e:
+        print(e)
+        # TO-DO: implement exception handling and logging here
+    #
+#

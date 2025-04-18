@@ -128,7 +128,9 @@ class StatsAnalyzer(VisualizeStats):
 def read_pickle(fileName):
     global outputPath
 
-    #   TO DO: exception handling if file doesnt exist
+    if not (outputPath / (fileName + '.pkl')).exists():
+        raise FileNotFoundError(f"[read_pickle] File {fileName}.pkl not found in {outputPath}")
+    #
     with open((outputPath / (fileName + '.pkl')), 'rb') as file:
         data = pickle.load(file)
     return data
@@ -136,8 +138,9 @@ def read_pickle(fileName):
 
 def read_csv_data(fileName):
     global inputPath
-    
-    #   TO DO: exception handling if file doesn't exist
+    if not (inputPath / (fileName + '.csv')).exists():
+        raise FileNotFoundError(f"[read_csv_data] File {fileName}.csv not found in {inputPath}")
+    #
     with open((inputPath / fileName), "r") as file:
         data = pd.read_csv(file)
         return data
@@ -146,30 +149,36 @@ def read_csv_data(fileName):
 #   EXPORT FUNCTIONS
 def export_pickle(data, fileName):
     global outputPath
-
-    # TO DO: exception if file already exists
+    if (outputPath / (fileName + '.pkl')).exists():
+        raise FileExistsError(f"[export_pickle] File {fileName}.pkl already exists in {outputPath}")
     with open((outputPath / (fileName + '.pkl')), "wb") as file:
         pickle.dump(data, file)
 #
 
-def export_csv(data, fileName):
+def export_csv(fileName):
     global outputPath
-
-    # TO DO: exception if file already exists
-    read_pickle(fileName).to_csv((outputPath / (fileName + '.csv')), index=False)
+    if (outputPath / (fileName + '.csv')).exists():
+        raise FileExistsError(f"[export_csv] File {fileName}.csv already exists in {outputPath}")
+    try:
+        read_pickle(fileName).to_csv((outputPath / (fileName + '.csv')), index=False)
+    except Exception as e:
+        raise e # propagate the error up the call stack to be handled in main.py
+    #
 #
 
 
 #   CALC FUNCTIONS
 def calc_yearly_volume_avg(fileName):
     global outputPath
-
-    data = read_csv_data(fileName)
-    data['year'] = pd.to_datetime(data['datetime']).dt.year
-    avgYearlyVolume = data.groupby('year')['Volume'].mean().reset_index()
-    avgYearlyVolume.columns = ['Year', 'Volume']
-    
-    export_pickle(avgYearlyVolume, 'YearlyVolumeAvg')
+    try:
+        data = read_csv_data(fileName)
+        data['year'] = pd.to_datetime(data['datetime']).dt.year
+        avgYearlyVolume = data.groupby('year')['Volume'].mean().reset_index()
+        avgYearlyVolume.columns = ['Year', 'Volume']
+        export_pickle(avgYearlyVolume, 'YearlyVolumeAvg')
+    except Exception as e:
+        raise e # propagate the error up the call stack to be handled in main.py
+    #
 #
 
 #%% SELF-RUN               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

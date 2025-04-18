@@ -125,17 +125,19 @@ def visualize():
 def visualize_yearly_volume_average(fileName):
     global outputPath
 
-    #   TO DO: exception handler for seeing if file already exists
-    avgYearlyVolume = prd.read_pickle(fileName)
-    plt.figure(figsize=(10,6))
-    plt.plot(avgYearlyVolume['Year'], avgYearlyVolume['Volume'], marker='o', linestyle='-', color='blue')
-    plt.title('Average Yearly Bitcoin Trading Volume Per Minute', fontsize='14')
-    plt.xlabel('Year', fontsize='12')
-    plt.ylabel('Volume Per Minute', fontsize='12')
-    plt.xticks(avgYearlyVolume['Year'])
-    plt.yticks(np.arange(0,12,step=1))
-    plt.grid(True)
-    plt.savefig((outputPath / 'YearlyVolumeAvg.png'), dpi=300, bbox_inches='tight')
+    try: 
+        avgYearlyVolume = prd.read_pickle(fileName)
+        plt.figure(figsize=(10,6))
+        plt.plot(avgYearlyVolume['Year'], avgYearlyVolume['Volume'], marker='o', linestyle='-', color='blue')
+        plt.title('Average Yearly Bitcoin Trading Volume Per Minute', fontsize='14')
+        plt.xlabel('Year', fontsize='12')
+        plt.ylabel('Volume Per Minute', fontsize='12')
+        plt.xticks(avgYearlyVolume['Year'])
+        plt.yticks(np.arange(0,12,step=1))
+        plt.grid(True)
+        plt.savefig((outputPath / 'YearlyVolumeAvg.png'), dpi=300, bbox_inches='tight')
+    except Exception as e:
+        raise e # propagate the error up the call stack to be handled in main.py
 #
 
 #%% SELF-RUN               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
