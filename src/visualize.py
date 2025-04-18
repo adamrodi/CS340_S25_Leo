@@ -37,6 +37,7 @@ from pathlib import Path
 
 #custom imports
 import process_data as prd
+import config as cfg
 
 
 #other imports
@@ -46,7 +47,7 @@ import process_data as prd
 
 
 #%% CONSTANTS                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+logger = cfg.get_logger(module_name_gl)
 
 #%% CONFIGURATION               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -58,7 +59,11 @@ import process_data as prd
 #%% DECLARATIONS                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #Global declarations Start Here
+global outputPath
+global inputPath
 
+outputPath = Path(__file__).parent.parent / 'Output'
+inputPath = Path(__file__).parent.parent / 'Input'
 
 
 #Class definitions Start Here
@@ -118,18 +123,22 @@ def visualize():
     pass
 #
 
-def visualize_yearly_volume_average(avgYearlyVolume):
-    #   TO DO: Exception handler to check if "Output" path exists
-    plt.figure(figsize=(10,6))
-    plt.plot(avgYearlyVolume['Year'], avgYearlyVolume['Volume'], marker='o', linestyle='-', color='blue')
-    plt.title('Average Yearly Bitcoin Trading Volume Per Minute', fontsize='14')
-    plt.xlabel('Year', fontsize='12')
-    plt.ylabel('Volume Per Minute', fontsize='12')
-    plt.xticks(avgYearlyVolume['Year'])
-    plt.yticks(np.arange(0,12,step=1))
-    plt.grid(True)
-    outputPath = Path(__file__).parent.parent / 'Output' / 'YearlyVolumeAvg.png'
-    plt.savefig(outputPath, dpi=300, bbox_inches='tight')
+def visualize_yearly_volume_average(fileName):
+    global outputPath
+
+    try: 
+        avgYearlyVolume = prd.read_pickle(fileName)
+        plt.figure(figsize=(10,6))
+        plt.plot(avgYearlyVolume['Year'], avgYearlyVolume['Volume'], marker='o', linestyle='-', color='blue')
+        plt.title('Average Yearly Bitcoin Trading Volume Per Minute', fontsize='14')
+        plt.xlabel('Year', fontsize='12')
+        plt.ylabel('Volume Per Minute', fontsize='12')
+        plt.xticks(avgYearlyVolume['Year'])
+        plt.yticks(np.arange(0,12,step=1))
+        plt.grid(True)
+        plt.savefig((outputPath / 'YearlyVolumeAvg.png'), dpi=300, bbox_inches='tight')
+    except Exception as e:
+        raise e # propagate the error up the call stack to be handled in main.py
 #
 
 #%% SELF-RUN               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -139,5 +148,4 @@ if __name__ == "__main__":
     visualize()
 
     # Add any testing or demonstration code here
-    visualize_yearly_volume_average(prd.calc_yearly_volume_avg(prd.process_data('Input/btcusd_1-min_data.csv')))
 #

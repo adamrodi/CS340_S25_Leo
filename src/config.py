@@ -30,6 +30,10 @@ if __name__ == "__main__":
    #os.chdir("./../..")
 #
 
+from pathlib import Path
+import logging
+from logging.handlers import RotatingFileHandler
+
 #custom imports
 
 
@@ -40,7 +44,8 @@ if __name__ == "__main__":
 
 
 #%% CONSTANTS                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+logDir = Path(__file__).parent.parent / 'Logs'
+logFile = logDir / "project.log"
 
 #%% CONFIGURATION               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -62,6 +67,36 @@ if __name__ == "__main__":
 #Function definitions Start Here
 def config():
     pass
+#
+
+def get_logger(name) -> logging.Logger:
+    logDir.mkdir(exist_ok=True)
+    
+    logger = logging.getLogger(name)
+    if logger.handlers:
+        return logger
+    logger.setLevel(logging.DEBUG)
+    file_handler = RotatingFileHandler(
+        logDir / f"{name}.log",
+        maxBytes=5 * 1024 * 1024,  # 5 MB
+        backupCount=3,
+        encoding='utf-8'
+    )
+    file_handler.setFormatter(
+        logging.Formatter(
+            '%(asctime)s - %(name)s - %(levelname)s: %(message)s'
+        )
+    )
+    console_handler = logging.StreamHandler()
+    console_handler.setFormatter(
+        logging.Formatter(
+            '%(levelname)s: %(message)s'
+        )
+    )
+    logger.addHandler(file_handler)
+    logger.addHandler(console_handler)
+    logger.propagate = False
+    return logger
 #
 
 #%% SELF-RUN               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
