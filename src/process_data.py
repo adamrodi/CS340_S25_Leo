@@ -34,6 +34,7 @@ import pandas as pd
 from itertools import permutations, combinations
 from pathlib import Path
 import pickle
+import config as cfg
 
 #custom imports
 
@@ -45,7 +46,7 @@ import pickle
 
 
 #%% CONSTANTS                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+logger = cfg.get_logger(module_name_gl)
 
 #%% CONFIGURATION               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

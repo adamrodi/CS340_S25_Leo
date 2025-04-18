@@ -37,6 +37,7 @@ from pathlib import Path
 
 #custom imports
 import process_data as prd
+import config as cfg
 
 
 #other imports
@@ -46,7 +47,7 @@ import process_data as prd
 
 
 #%% CONSTANTS                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+logger = cfg.get_logger(module_name_gl)
 
 #%% CONFIGURATION               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
