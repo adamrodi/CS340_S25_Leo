@@ -31,6 +31,9 @@ if __name__ == "__main__":
 #
 
 #custom imports
+import process_data as prd
+import visualize as vs
+import config as cfg
 
 
 #other imports
@@ -43,7 +46,7 @@ if __name__ == "__main__":
 
 
 #%% CONFIGURATION               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+logger = cfg.get_logger(module_name_gl)
 
 
 #%% INITIALIZATIONS             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -69,5 +72,15 @@ def main():
 if __name__ == "__main__":
     
     print(f"\"{module_name_gl}\" module begins.")
-    
-    main()
+
+    #   demo code
+    fileName = 'YearlyVolumeAvg'
+    try:
+        prd.export_csv(fileName)
+        vs.visualize_yearly_volume_average(fileName)
+    except Exception as e:
+        logger.error(e)
+        print(e)
+        # TO-DO: implement exception handling and logging here
+    #
+#

@@ -33,6 +33,8 @@ import numpy as np
 import pandas as pd
 from itertools import permutations, combinations
 from pathlib import Path
+import pickle
+import config as cfg
 
 #custom imports
 
@@ -44,7 +46,7 @@ from pathlib import Path
 
 
 #%% CONSTANTS                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+logger = cfg.get_logger(module_name_gl)
 
 #%% CONFIGURATION               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -56,7 +58,11 @@ from pathlib import Path
 #%% DECLARATIONS                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #Global declarations Start Here
+global outputPath
+global inputPath
 
+outputPath = Path(__file__).parent.parent / 'Output'
+inputPath = Path(__file__).parent.parent / 'Input'
 
 
 #Class definitions Start Here
@@ -65,7 +71,7 @@ class VisualizeStats:
     def __init__(self, config=None):
         self.config = config or {}
     #
-
+    
 #
 
 class StatsAnalyzer(VisualizeStats):
@@ -118,26 +124,62 @@ class StatsAnalyzer(VisualizeStats):
 
 
 #Function definitions Start Here
-def process_data(filename):
-    with open(filename, "r") as csvFile:
-        data = pd.read_csv(csvFile)
+
+#   READ FUNCTIONS
+def read_pickle(fileName):
+    global outputPath
+
+    if not (outputPath / (fileName + '.pkl')).exists():
+        raise FileNotFoundError(f"[read_pickle] File {fileName}.pkl not found in {outputPath}")
+    #
+    with open((outputPath / (fileName + '.pkl')), 'rb') as file:
+        data = pickle.load(file)
+    return data
+#
+
+def read_csv_data(fileName):
+    global inputPath
+    if not (inputPath / (fileName + '.csv')).exists():
+        raise FileNotFoundError(f"[read_csv_data] File {fileName}.csv not found in {inputPath}")
+    #
+    with open((inputPath / fileName), "r") as file:
+        data = pd.read_csv(file)
         return data
 #
 
-def calc_yearly_volume_avg(data):
-    data['year'] = pd.to_datetime(data['datetime']).dt.year
-    avgYearlyVolume = data.groupby('year')['Volume'].mean().reset_index()
-    avgYearlyVolume.columns = ['Year', 'Volume']
-    return avgYearlyVolume
+#   EXPORT FUNCTIONS
+def export_pickle(data, fileName):
+    global outputPath
+    if (outputPath / (fileName + '.pkl')).exists():
+        raise FileExistsError(f"[export_pickle] File {fileName}.pkl already exists in {outputPath}")
+    with open((outputPath / (fileName + '.pkl')), "wb") as file:
+        pickle.dump(data, file)
 #
 
-def export_yearly_volume_avg(volumeAvg):
-    #   Takes the path the script file is currently in, gets the parent directory (src folder), then gets the parent directory of the src folder (CS340_S25_Leo folder)
-    #   then creates a csv file in Output folder.
-    #   TO DO:  add exception handler to check if "Output" path exists
+def export_csv(fileName):
+    global outputPath
+    if (outputPath / (fileName + '.csv')).exists():
+        raise FileExistsError(f"[export_csv] File {fileName}.csv already exists in {outputPath}")
+    try:
+        read_pickle(fileName).to_csv((outputPath / (fileName + '.csv')), index=False)
+    except Exception as e:
+        raise e # propagate the error up the call stack to be handled in main.py
+    #
+#
 
-    outputPath = Path(__file__).parent.parent / 'Output' / 'YearlyVolumeAvg.csv'
-    volumeAvg.to_csv(outputPath, index=False)
+
+#   CALC FUNCTIONS
+def calc_yearly_volume_avg(fileName):
+    global outputPath
+    try:
+        data = read_csv_data(fileName)
+        data['year'] = pd.to_datetime(data['datetime']).dt.year
+        avgYearlyVolume = data.groupby('year')['Volume'].mean().reset_index()
+        avgYearlyVolume.columns = ['Year', 'Volume']
+        export_pickle(avgYearlyVolume, 'YearlyVolumeAvg')
+    except Exception as e:
+        raise e # propagate the error up the call stack to be handled in main.py
+    #
 #
 
 #%% SELF-RUN               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -147,7 +189,4 @@ if __name__ == "__main__":
     print(f"Running {module_name_gl} module directly")
 
     # Add any testing or demonstration code here
-    filename = 'Input/btcusd_1-min_data.csv'
-    yearlyVolumeAvg = calc_yearly_volume_avg(process_data(filename))
-    export_yearly_volume_avg(yearlyVolumeAvg)
 #
