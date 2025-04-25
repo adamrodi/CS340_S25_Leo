@@ -180,9 +180,27 @@ def calc_yearly_volume_avg(fileName):
     except Exception as e:
         raise e # propagate the error up the call stack to be handled in main.py
     #
-def local_max_min(x1,x2):
-    pass
-    #
+
+def local_min_max(file_path, start_date, end_date, chunksize=100_000):
+    try:
+        start = pd.to_datetime(start_date)
+        end = pd.to_datetime(end_date)
+        max_price = None
+        min_price = None
+        for chunk in pd.read_csv(
+            file_path,
+            usecols=["datetime", "high", "low"],
+            parse_dates=["datetime"],
+            chunksize=chunksize
+        ):
+            filtered = chunk[(chunk["datetime"] >= start) & (chunk["datetime"] <= end)]
+            if not filtered.empty:
+                max_price = max(max_price, filtered["high"].max())
+                min_price = min(min_price, filtered["low"].min())
+        return max_price, min_price
+    except Exception as e:
+        raise e # propagate the error up the call stack to be handled in main.py
+#
 
 def percentage_increase():
     pass
