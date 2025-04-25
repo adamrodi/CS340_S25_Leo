@@ -180,8 +180,13 @@ def calc_yearly_volume_avg(fileName):
     except Exception as e:
         raise e # propagate the error up the call stack to be handled in main.py
     #
-def local_max_min():
+def local_max_min(x1,x2):
     pass
+    #
+
+def percentage_increase():
+    pass
+    #
 #
 
 #%% SELF-RUN               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
