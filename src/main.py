@@ -75,12 +75,20 @@ if __name__ == "__main__":
 
     #   demo code
     fileName = 'YearlyVolumeAvg'
+    bitcoinDataFile = 'btcusd_1-min_data'
     try:
+        vs.visualize_bitcoin_price(bitcoinDataFile, period='3m')
+        vs.visualize_bitcoin_price(bitcoinDataFile, period='6m')
+        vs.visualize_bitcoin_price(bitcoinDataFile, period='1y')
+        vs.visualize_bitcoin_price(bitcoinDataFile, period='3y')
+        vs.visualize_bitcoin_price(bitcoinDataFile, period='5y')
+        vs.visualize_bitcoin_price(bitcoinDataFile, period='all')
+
         prd.export_csv(fileName)
         vs.visualize_yearly_volume_average(fileName)
     except Exception as e:
         logger.error(e)
-        print(e)
         # TO-DO: implement exception handling and logging here
     #
+    print(f"\"{module_name_gl}\" module ends.")
 #

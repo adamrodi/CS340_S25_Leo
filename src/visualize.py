@@ -115,6 +115,8 @@ class Plot(VisualizationHandler):
         return self.df.query(conditions)
     #
 
+    
+
 #
 
 
@@ -139,6 +141,66 @@ def visualize_yearly_volume_average(fileName):
         plt.savefig((outputPath / 'YearlyVolumeAvg.png'), dpi=300, bbox_inches='tight')
     except Exception as e:
         raise e # propagate the error up the call stack to be handled in main.py
+#
+
+def visualize_bitcoin_price(data_file, period='1y', save_fig=True):
+    """
+    Visualize Bitcoin price data for a specific time period
+    
+    Parameters:
+    -----------
+    data_file : str
+        Name of the CSV file containing Bitcoin price data (without extension)
+    period : str
+        Time period to visualize ('1m', '3m', '6m', '1y', '3y', '5y', 'all')
+    save_fig : bool
+        Whether to save the figure to disk
+    """
+    global inputPath, outputPath
+    
+    try:
+        file_path = inputPath / f"{data_file}.csv"
+        bitcoin_data = pd.read_csv(file_path)
+        bitcoin_data['datetime'] = pd.to_datetime(bitcoin_data['datetime'])
+        filtered_data = prd.filter_bitcoin_price_by_period(bitcoin_data, period)
+        filtered_data = filtered_data.dropna(subset=['datetime'])
+        if hasattr(filtered_data['datetime'].dt, 'tz'):
+            filtered_data = filtered_data.copy()
+            filtered_data['datetime'] = filtered_data['datetime'].dt.tz_localize(None)
+        #
+        plt.figure(figsize=(12, 6))
+        plt.plot(filtered_data['datetime'], filtered_data['Close'], 
+                 linewidth=1, color='#F7931A')  # Bitcoin orange color
+        plt.title(f'Bitcoin Price - {period_to_text(period)}', fontsize=16)
+        plt.xlabel('Date', fontsize=12)
+        plt.ylabel('Price (USD)', fontsize=12)
+        plt.grid(True, alpha=0.3)
+        plt.gcf().autofmt_xdate()
+        plt.tight_layout()
+        
+        if save_fig:
+            output_file = outputPath / f'Bitcoin_Price_{period}.png'
+            plt.savefig(output_file, dpi=300, bbox_inches='tight')
+            logger.info(f"Price chart saved to {output_file}")
+        #
+    #  
+    except Exception as e:
+        logger.error(f"Failed to visualize Bitcoin price: {e}")
+        raise e
+#
+
+def period_to_text(period):
+    """Convert period code to readable text"""
+    period_map = {
+        '1m': 'Last 1 Month',
+        '3m': 'Last 3 Months',
+        '6m': 'Last 6 Months',
+        '1y': 'Last 1 Year',
+        '3y': 'Last 3 Years',
+        '5y': 'Last 5 Years',
+        'all': 'All Time'
+    }
+    return period_map.get(period, period)
 #
 
 #%% SELF-RUN               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

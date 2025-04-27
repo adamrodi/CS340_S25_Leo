@@ -1,0 +1,31 @@
+2025-04-27 09:44:59,344 - visualize - ERROR: Failed to visualize Bitcoin price: Invalid comparison between dtype=datetime64[ns, UTC] and Timestamp
+2025-04-27 10:41:08,436 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_1y.png
+2025-04-27 10:42:21,466 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_1y.png
+2025-04-27 10:42:36,413 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_1m.png
+2025-04-27 10:46:35,900 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_1y.png
+2025-04-27 10:46:56,366 - visualize - ERROR: Failed to visualize Bitcoin price: Failed to convert value(s) to axis units: array([Timestamp('2012-01-01 10:01:00+0000', tz='UTC'),
+       Timestamp('2012-01-01 10:02:00+0000', tz='UTC'),
+       Timestamp('2012-01-01 10:03:00+0000', tz='UTC'), ..., NaT, NaT,
+       NaT], dtype=object)
+2025-04-27 10:50:41,801 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_1y.png
+2025-04-27 10:52:57,473 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_1y.png
+2025-04-27 10:53:10,365 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_all.png
+2025-04-27 11:04:42,803 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_1y.png
+2025-04-27 11:04:48,744 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_all.png
+2025-04-27 11:06:50,704 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_1y.png
+2025-04-27 11:06:56,556 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_all.png
+2025-04-27 11:12:27,284 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_1m.png
+2025-04-27 11:12:33,004 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_3m.png
+2025-04-27 11:12:38,798 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_6m.png
+2025-04-27 11:14:53,040 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_3m.png
+2025-04-27 11:14:58,703 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_6m.png
+2025-04-27 11:15:04,521 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_1y.png
+2025-04-27 11:15:10,367 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_3y.png
+2025-04-27 11:15:16,141 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_5y.png
+2025-04-27 11:15:22,316 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_all.png
+2025-04-27 11:18:30,888 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_3m.png
+2025-04-27 11:18:36,564 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_6m.png
+2025-04-27 11:18:42,203 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_1y.png
+2025-04-27 11:18:48,076 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_3y.png
+2025-04-27 11:18:53,977 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_5y.png
+2025-04-27 11:19:00,152 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_all.png

@@ -2,3 +2,11 @@
 2025-04-18 15:30:53,758 - main - ERROR - [export_csv] File YearlyVolumeAvg.csv already exists in /Users/adam/CS340_S25_Leo/Output
 2025-04-18 15:31:50,802 - main - ERROR: [export_csv] File YearlyVolumeAvg.csv already exists in /Users/adam/CS340_S25_Leo/Output
 2025-04-18 15:45:27,161 - main - ERROR: [export_csv] File YearlyVolumeAvg.csv already exists in /Users/adam/CS340_S25_Leo/Output
+2025-04-27 09:44:59,344 - main - ERROR: Invalid comparison between dtype=datetime64[ns, UTC] and Timestamp
+2025-04-27 10:41:45,506 - main - ERROR: [export_csv] File YearlyVolumeAvg.csv already exists in /Users/adam/CS340_S25_Leo/Output
+2025-04-27 10:42:47,875 - main - ERROR: [export_csv] File YearlyVolumeAvg.csv already exists in /Users/adam/CS340_S25_Leo/Output
+2025-04-27 10:46:56,366 - main - ERROR: Failed to convert value(s) to axis units: array([Timestamp('2012-01-01 10:01:00+0000', tz='UTC'),
+       Timestamp('2012-01-01 10:02:00+0000', tz='UTC'),
+       Timestamp('2012-01-01 10:03:00+0000', tz='UTC'), ..., NaT, NaT,
+       NaT], dtype=object)
+2025-04-27 10:53:51,801 - main - ERROR: [export_csv] File YearlyVolumeAvg.csv already exists in /Users/adam/CS340_S25_Leo/Output

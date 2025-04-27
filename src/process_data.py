@@ -158,11 +158,10 @@ def export_pickle(data, fileName):
 
 def export_csv(fileName):
     global outputPath
-    if (outputPath / (fileName + '.csv')).exists():
-        raise FileExistsError(f"[export_csv] File {fileName}.csv already exists in {outputPath}")
     try:
         read_pickle(fileName).to_csv((outputPath / (fileName + '.csv')), index=False)
     except Exception as e:
+        logger.error(f"[export_csv] Error exporting {fileName}.csv: {e}")
         raise e # propagate the error up the call stack to be handled in main.py
     #
 #
@@ -180,6 +179,50 @@ def calc_yearly_volume_avg(fileName):
     except Exception as e:
         raise e # propagate the error up the call stack to be handled in main.py
     #
+#
+
+def filter_bitcoin_price_by_period(df, period='1y'):
+    """
+    Filter Bitcoin price data for a specific time period
+    
+    Parameters:
+    -----------
+    df : DataFrame
+        DataFrame containing Bitcoin price data with 'datetime' column
+    period : str
+        Time period to filter ('3m', '6m', '1y', '3y', '5y', 'all')
+        
+    Returns:
+    --------
+    DataFrame
+        Filtered DataFrame with data for the specified period
+    """
+    # Ensure datetime is in the right format
+    if not pd.api.types.is_datetime64_any_dtype(df['datetime']):
+        df['datetime'] = pd.to_datetime(df['datetime'])
+    
+    # Get current date as reference
+    end_date = pd.Timestamp.now(tz='UTC')
+    
+    # Calculate start date based on period
+    if period == '3m':
+        start_date = end_date - pd.DateOffset(months=3)
+    elif period == '6m':
+        start_date = end_date - pd.DateOffset(months=6)
+    elif period == '1y':
+        start_date = end_date - pd.DateOffset(years=1)
+    elif period == '3y':
+        start_date = end_date - pd.DateOffset(years=3)
+    elif period == '5y':
+        start_date = end_date - pd.DateOffset(years=5)
+    else:  # 'all'
+        return df
+    
+    # Filter the dataframe based on the date range
+    filtered_df = df[(df['datetime'] >= start_date) & 
+                           (df['datetime'] <= end_date)]
+    
+    return filtered_df
 #
 
 #%% SELF-RUN               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
