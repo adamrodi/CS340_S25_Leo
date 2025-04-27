@@ -95,6 +95,9 @@ if __name__ == "__main__":
     start, end = prepare_dates("2023-01-01", "2023-02-01")
     max_price, min_price = find_local_min_max("data.csv", start, end)
     percentage_change = find_percentage_change("data.csv", start, end, price_column="close")
+    print(percentage_change)
+    print(max_price)
+    print(min_price)
 
 
 #
