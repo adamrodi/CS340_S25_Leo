@@ -202,6 +202,44 @@ def period_to_text(period):
     }
     return period_map.get(period, period)
 #
+def find_local_min_max(file_path, start, end, chunksize=100_000):
+    """Finds the local maximum and minimum between start and end dates."""
+    max_price = None
+    min_price = None
+    for chunk in pd.read_csv(
+        file_path,
+        usecols=["datetime", "high", "low"],
+        parse_dates=["datetime"],
+        chunksize=chunksize
+    ):
+        filtered = chunk[(chunk["datetime"] >= start) & (chunk["datetime"] <= end)]
+        if not filtered.empty:
+            max_price = max(max_price, filtered["high"].max()) if max_price is not None else filtered["high"].max()
+            min_price = min(min_price, filtered["low"].min()) if min_price is not None else filtered["low"].min()
+    return max_price, min_price
+#
+def find_percentage_change(file_path, start, end, price_column="close", chunksize=100_000):
+    """Finds the percentage change of a given price column between start and end dates."""
+    start_value = None
+    end_value = None
+    for chunk in pd.read_csv(
+        file_path,
+        usecols=["datetime", price_column],
+        parse_dates=["datetime"],
+        chunksize=chunksize
+    ):
+        mask = (chunk["datetime"] >= start) & (chunk["datetime"] <= end)
+        filtered = chunk.loc[mask]
+        if not filtered.empty:
+            if start_value is None:
+                start_value = filtered.iloc[0][price_column]
+            end_value = filtered.iloc[-1][price_column]
+    if start_value is None or end_value is None:
+        print("No data found in the specified time range.")
+        return None
+    percentage_change = ((end_value - start_value) / start_value) * 100
+    return percentage_change
+#
 
 #%% SELF-RUN               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 if __name__ == "__main__":
