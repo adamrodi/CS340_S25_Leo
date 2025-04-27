@@ -79,7 +79,7 @@ if __name__ == "__main__":
     try:
         vs.visualize_bitcoin_price(bitcoinDataFile, period='3m')
         vs.visualize_bitcoin_price(bitcoinDataFile, period='6m')
-        prd.percentage_chance_calculator(bitcoinDataFile)
+        prd.calc_percentage_change(bitcoinDataFile)
         vs.visualize_bitcoin_price(bitcoinDataFile, period='1y')
         vs.visualize_bitcoin_price(bitcoinDataFile, period='3y')
         vs.visualize_bitcoin_price(bitcoinDataFile, period='5y')
