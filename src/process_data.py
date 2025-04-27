@@ -179,6 +179,55 @@ def calc_yearly_volume_avg(fileName):
     except Exception as e:
         raise e # propagate the error up the call stack to be handled in main.py
     #
+
+def calc_local_min_max(file_path, start_date, end_date, chunksize=100_000):
+    try:
+        start = pd.to_datetime(start_date)
+        end = pd.to_datetime(end_date)
+        max_price = None
+        min_price = None
+        for chunk in pd.read_csv(
+            file_path,
+            usecols=["datetime", "high", "low"],
+            parse_dates=["datetime"],
+            chunksize=chunksize
+        ):
+            filtered = chunk[(chunk["datetime"] >= start) & (chunk["datetime"] <= end)]
+            if not filtered.empty:
+                max_price = max(max_price, filtered["high"].max())
+                min_price = min(min_price, filtered["low"].min())
+        return max_price, min_price
+    except Exception as e:
+        raise e # propagate the error up the call stack to be handled in main.py
+#
+
+def calc_percentage_change(file_path, start_date, end_date, price_column="close"):
+    try:
+        start = pd.to_datetime(start_date)
+        end = pd.to_datetime(end_date)
+        if start >= end:
+            raise ValueError("Start date must be earlier than end date.")
+        start_value = None
+        end_value = None
+        for chunk in pd.read_csv(
+            file_path,
+            usecols=["datetime", price_column],
+            parse_dates=["datetime"],
+            chunksize=100_000
+        ):
+            mask = (chunk["datetime"] >= start) & (chunk["datetime"] <= end)
+            filtered = chunk.loc[mask]
+            if not filtered.empty:
+                if start_value is None:
+                    start_value = filtered.iloc[0][price_column]
+                end_value = filtered.iloc[-1][price_column]
+        if start_value is None or end_value is None:
+            print("No data found in the specified time range.")
+            return None
+        percentage_change = ((end_value - start_value) / start_value) * 100
+        return percentage_change
+    except Exception as e:
+        raise e # propagate the error up the call stack to be handled in main.py
 #
 
 def filter_bitcoin_price_by_period(df, period='1y'):
