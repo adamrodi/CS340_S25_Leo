@@ -34,14 +34,16 @@ if __name__ == "__main__":
 import process_data as prd
 import visualize as vs
 import config as cfg
+import ui as ui
 
 
 #other imports
 
 
 #%% USER INTERFACE              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
+ui.displayMenu()
+choice = ui.getChoice()
+ui.displayChoice(choice)
 #%% CONSTANTS                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -76,6 +78,7 @@ if __name__ == "__main__":
     #   demo code
     fileName = 'YearlyVolumeAvg'
     bitcoinDataFile = 'btcusd_1-min_data'
+    
     try:
         vs.visualize_bitcoin_price(bitcoinDataFile, period='3m')
         vs.visualize_bitcoin_price(bitcoinDataFile, period='6m')
