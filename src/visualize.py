@@ -1,251 +1,322 @@
 module_name_gl = 'visualize'
 
-'''
-Version: v0.1
+"""
+Version        : v0.2
+Description    : Visualisation / statistics helpers for the project.
+Authors        : Adam Rodi · Bishow Adhikari · Caleb Viverito · Max Del Rio
+Date Created   : 2025-04-06
+Date Updated   : 2025-05-08
+"""
 
-Description:
-    This is the module for visualizing data. It contains functions and classes
-    that help in creating visual representations of the data processed by
-    the application.
-
-Authors:
-    Adam Rodi
-    Bishow Adhikari
-    Caleb Viverito
-    Max Del Rio
-
-Date Created     :  4-6-2025
-Date Last Updated:  4-7-2025
-
-Doc:
-    <***>
-
-Notes:
-    <***>
-'''
-
-#%% IMPORTS                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# %% IMPORTS ──────────────────────────────────────────────────────────────
 if __name__ == "__main__":
-   import os
-   #os.chdir("./../..")
+    import os
+    # os.chdir("./../..")
 #
+import itertools
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 import numpy as np
 from pathlib import Path
 
-#custom imports
+# custom imports
 import process_data as prd
 import config as cfg
 
-
-#other imports
-
-
-#%% USER INTERFACE              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-#%% CONSTANTS                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# %% CONSTANTS / GLOBALS ──────────────────────────────────────────────────
 logger = cfg.get_logger(module_name_gl)
-
-#%% CONFIGURATION               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-
-#%% INITIALIZATIONS             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-#%% DECLARATIONS                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #Global declarations Start Here
 global outputPath
 global inputPath
-
 outputPath = Path(__file__).parent.parent / 'Output'
-inputPath = Path(__file__).parent.parent / 'Input'
+inputPath  = Path(__file__).parent.parent / 'Input'
 
-
-#Class definitions Start Here
-
+# %% CLASS DEFINITIONS ────────────────────────────────────────────────────
 class VisualizationHandler:
-    """
+    """Base utilities for simple visualisation & querying."""
 
-    """
     def __init__(self, config=None):
         self.config = config or {}
-    #
 
     def visualize_column(self, df, column):
         df[column].plot.line()
         plt.title(f"Line Plot of {column}")
-        plt.xlabel(column)
-        plt.ylabel("Values")
-        plt.grid(True)
+        plt.xlabel(column); 
+        plt.ylabel("Values"); 
+        plt.grid(True); 
         plt.show()
-    #
 
     def simple_query(self, df, column, value):
-        return df[df[column] == value]
-    #
-#
+        return df[df[column] == value] 
 
-class Plot(VisualizationHandler):
-    """
-    
-    """
-    def __init__(self, filepath, config=None):
-        super().__init__()
+
+# ─────────────────────────────────────────────────────────────────────────
+class ConfigPlot(VisualizationHandler):
+    """Parent-1 : config store, histogram + line helpers, simple query."""
+
+    DEFAULT_CFG = {"figsize": (8, 4), "hist_bins": 20,
+                   "line_style": "-", "alpha": 0.75}
+
+    def __init__(self, config=None):
+        super().__init__(config or self.DEFAULT_CFG.copy())
+
+    # ---------- visualisations ----------
+    def hist_each_column(self, df: pd.DataFrame, save: bool = False, show: bool = False):
+        for col in df.select_dtypes(include=np.number):
+            plt.figure(figsize=self.config["figsize"])
+            df[col].plot.hist(bins=self.config["hist_bins"],
+                              alpha=self.config["alpha"], grid=True)
+            plt.title(f"Histogram of {col}"); plt.xlabel(col)
+            if save:
+                fname = outputPath / f"hist_{col}.png"
+                plt.savefig(fname, dpi=300, bbox_inches="tight")
+                logger.info(f"Saved {fname}")
+            if show: plt.show()
+            plt.close()
+
+    def line_each_column(self, df: pd.DataFrame, save: bool = False, show: bool = False):
+        for col in df.select_dtypes(include=np.number):
+            plt.figure(figsize=self.config["figsize"])
+            df[col].plot.line(style=self.config["line_style"], grid=True)
+            plt.title(f"Line plot of {col}"); plt.ylabel(col)
+            if save:
+                fname = outputPath / f"line_{col}.png"
+                plt.savefig(fname, dpi=300, bbox_inches="tight")
+                logger.info(f"Saved {fname}")
+            if show: plt.show()
+            plt.close()
+
+    # ---------- query ----------
+    def query_simple(self, df: pd.DataFrame, column, value):
+        return df.loc[df[column] == value]
+
+
+# ─────────────────────────────────────────────────────────────────────────
+class DataPlot(ConfigPlot):
+
+    _private_flag = True
+
+    def __init__(self, filepath: str, config=None):
+        super().__init__(config)
         self.df = pd.read_csv(filepath)
-    #
 
-    def plot(self, column_x, column_y=None, method='violin'):
-        if method == 'violin':
-            sns.violinplot(y=self.df[column_x])
-        elif method == 'box':
-            sns.boxplot(y=self.df[column_x])
-        elif method == 'scatter':
-            sns.scatterplot(x=self.df[column_x], y=self.df[column_y])
-        plt.title(f"{method.capitalize()} Plot")
-        plt.grid(True)
-        plt.show()
-    #
+    # ---------- visualisations ----------
+    def plot(self, x, y=None, *, kind="violin", save=False, show=False):
+        plt.figure(figsize=self.config["figsize"])
+        if kind == "violin":
+            sns.violinplot(y=self.df[x])
+        elif kind == "box":
+            sns.boxplot(y=self.df[x])
+        elif kind == "scatter" and y is not None:
+            sns.scatterplot(x=self.df[x], y=self.df[y])
+        plt.title(f"{kind.capitalize()} plot of {x}"); plt.grid(True)
+        if save:
+            suffix = f"{kind}_{x}" if y is None else f"{kind}_{x}_vs_{y}"
+            fname = outputPath / f"{suffix}.png"
+            plt.savefig(fname, dpi=300, bbox_inches="tight"); logger.info(f"Saved {fname}")
+        if show: plt.show()
+        plt.close()
 
-    def getBoolIndex(self, conditions):
-        return self.df.query(conditions)
-    #
+    # ---------- boolean query ----------
+    def query_bool(self, expression: str):
+        return self.df.query(expression)
 
+    def add_numpy_matrix(self, np_array, *col_names, **kwargs):
+        if not isinstance(np_array, np.ndarray):
+            raise TypeError("np_array must be numpy.ndarray")
+
+        rows, cols = np_array.shape
+        if col_names and len(col_names) != cols:
+            raise ValueError("Number of column names must match array width.")
+
+        new_df = pd.DataFrame(np_array,
+                              columns=list(col_names) or [f"col_{i}" for i in range(cols)],
+                              **kwargs)
+
+        # demonstrate non-local variable
+        def _append():
+            nonlocal new_df
+            self.df = pd.concat([self.df, new_df], ignore_index=True)
+        _append()
+        logger.info("NumPy matrix appended.")
+        return new_df
     
+    def eval_filter(self, expr: str):
+        namespace = {"df": self.df, "np": np, "pd": pd}
+        mask = eval(expr, {"__builtins__": {}}, namespace)      # using eval()
+        return self.df[mask]
 
-#
+    # ---------- lambda helper ----------
+    def lambda_apply(self, column, func=lambda x: x):
+        return self.df[column].apply(func)
+
+    # ---------- nonlocal counter demo ----------
+    def nonlocal_counter(self):
+        cnt = 0
+        def inc():
+            nonlocal cnt
+            cnt += 1
+        for _ in range(3): inc()
+        return cnt
 
 
-#Function definitions Start Here
-def visualize():
-    pass
-#
+# ─────────────────────────────────────────────────────────────────────────
+class StatsHandler:
+    def __init__(self, config=None):
+        self.config = config or {}
+
+    # probability helpers
+    @staticmethod
+    def joint_counts(df, a, b):             
+        return pd.crosstab(df[a], df[b])
+    
+    @staticmethod
+    def joint_probabilities(df, a, b):
+        c = StatsHandler.joint_counts(df, a, b); 
+        return c / c.values.sum()
+        
+    @staticmethod
+    def conditional_probabilities(df, given, target):
+        return pd.crosstab(df[given], df[target], normalize="index")
+
+    # central tendency
+    @staticmethod
+    def describe_numeric(df, col):
+        s = df[col].dropna(); 
+        return {"mean": s.mean(), "median": s.median(), "std": s.std()}
+
+    # vector ops
+    @staticmethod
+    def position_vector(a, b): 
+        return np.array(b) - np.array(a)
+    
+    @staticmethod
+    def unit_vector(v):         
+        v = np.asarray(v); 
+        return v / np.linalg.norm(v)
+    
+    @staticmethod
+    def projection(u, v):       
+        vu = StatsHandler.unit_vector(v); 
+        return np.dot(u, vu) * vu
+    
+    @staticmethod
+    def dot_angle(u, v):
+        dot = np.dot(u, v)
+        ang = np.degrees(np.arccos(dot / (np.linalg.norm(u) * np.linalg.norm(v))))
+        return dot, ang
+    
+    @staticmethod
+    def orthogonal(u, v, tol=1e-8): 
+        return abs(np.dot(u, v)) < tol
+
+    # categorical
+    @staticmethod
+    def unique_values(df, col):            
+        return df[col].dropna().unique()
+    
+    @staticmethod
+    def permutations_of(values, r=None):   
+        return list(itertools.permutations(values, r or len(values)))
+    
+    @staticmethod
+    def combinations_of(values, r=2):      
+        return list(itertools.combinations(values, r))
+
+
+class AdvancedStats(StatsHandler):
+    def __init__(self, pickle_path, config=None):
+        super().__init__(config); self.df = pd.read_pickle(pickle_path)
+
+    joint_counts  = lambda self, a, b: super().joint_counts(self.df, a, b)
+    joint_probs   = lambda self, a, b: super().joint_probabilities(self.df, a, b)
+    cond_probs    = lambda self, g, t: super().conditional_probabilities(self.df, g, t)
+    describe_numeric = lambda self, c:  super().describe_numeric(self.df, c)
+
+    def plot_hist(self, col):
+        plt.figure(figsize=(8, 4)); self.df[col].plot.hist(grid=True)
+        plt.title(f"Histogram of {col}"); plt.show()
+
+# %% STAND-ALONE FUNCTIONS ────────────────────────────────────────────────
+def visualize(): pass
 
 def visualize_yearly_volume_average(fileName):
-    global outputPath
-
-    try: 
-        avgYearlyVolume = prd.read_pickle(fileName)
-        plt.figure(figsize=(10,6))
-        plt.plot(avgYearlyVolume['Year'], avgYearlyVolume['Volume'], marker='o', linestyle='-', color='blue')
-        plt.title('Average Yearly Bitcoin Trading Volume Per Minute', fontsize='14')
-        plt.xlabel('Year', fontsize='12')
-        plt.ylabel('Volume Per Minute', fontsize='12')
-        plt.xticks(avgYearlyVolume['Year'])
-        plt.yticks(np.arange(0,12,step=1))
+    try:
+        avg = prd.read_pickle(fileName)
+        plt.figure(figsize=(10, 6))
+        plt.plot(avg['Year'], avg['Volume'], marker='o', linestyle='-', color='blue')
+        plt.title('Average Yearly Bitcoin Trading Volume Per Minute')
+        plt.xlabel('Year'); plt.ylabel('Volume Per Minute')
         plt.grid(True)
-        plt.savefig((outputPath / 'YearlyVolumeAvg.png'), dpi=300, bbox_inches='tight')
-    except Exception as e:
-        raise e # propagate the error up the call stack to be handled in main.py
-#
+        plt.savefig(outputPath / 'YearlyVolumeAvg.png', dpi=300, bbox_inches='tight')
+        plt.close()
+    except Exception as e: raise e
 
 def visualize_bitcoin_price(data_file, period='1y', save_fig=True):
-    """
-    Visualize Bitcoin price data for a specific time period
-    
-    Parameters:
-    -----------
-    data_file : str
-        Name of the CSV file containing Bitcoin price data (without extension)
-    period : str
-        Time period to visualize ('1m', '3m', '6m', '1y', '3y', '5y', 'all')
-    save_fig : bool
-        Whether to save the figure to disk
-    """
-    global inputPath, outputPath
-    
     try:
-        file_path = inputPath / f"{data_file}.csv"
-        bitcoin_data = pd.read_csv(file_path)
-        bitcoin_data['datetime'] = pd.to_datetime(bitcoin_data['datetime'])
-        filtered_data = prd.filter_bitcoin_price_by_period(bitcoin_data, period)
-        filtered_data = filtered_data.dropna(subset=['datetime'])
-        if hasattr(filtered_data['datetime'].dt, 'tz'):
-            filtered_data = filtered_data.copy()
-            filtered_data['datetime'] = filtered_data['datetime'].dt.tz_localize(None)
-        #
+        df_path = inputPath / f"{data_file}.csv"
+        df = pd.read_csv(df_path)
+        df['datetime'] = pd.to_datetime(df['datetime'])
+        filtered = prd.filter_bitcoin_price_by_period(df, period).dropna(subset=['datetime'])
+        if hasattr(filtered['datetime'].dt, 'tz'):
+            filtered['datetime'] = filtered['datetime'].dt.tz_localize(None)
+
         plt.figure(figsize=(12, 6))
-        plt.plot(filtered_data['datetime'], filtered_data['Close'], 
-                 linewidth=1, color='#F7931A')  # Bitcoin orange color
-        plt.title(f'Bitcoin Price - {period_to_text(period)}', fontsize=16)
-        plt.xlabel('Date', fontsize=12)
-        plt.ylabel('Price (USD)', fontsize=12)
-        plt.grid(True, alpha=0.3)
-        plt.gcf().autofmt_xdate()
+        plt.plot(filtered['datetime'], filtered['Close'], lw=1, color='#F7931A')
+        plt.title(f'Bitcoin Price – {period_to_text(period)}')
+        plt.xlabel('Date'); plt.ylabel('Price (USD)'); plt.grid(True, alpha=0.3)
         plt.tight_layout()
-        
+
         if save_fig:
-            output_file = outputPath / f'Bitcoin_Price_{period}.png'
-            plt.savefig(output_file, dpi=300, bbox_inches='tight')
-            logger.info(f"Price chart saved to {output_file}")
-        #
-    #  
+            outfile = outputPath / f'Bitcoin_Price_{period}.png'
+            plt.savefig(outfile, dpi=300, bbox_inches='tight')
+            logger.info(f"Price chart saved to {outfile}")
+        plt.close()
     except Exception as e:
-        logger.error(f"Failed to visualize Bitcoin price: {e}")
+        logger.error(f"Failed to visualise Bitcoin price: {e}")
         raise e
-#
 
-def period_to_text(period):
-    """Convert period code to readable text"""
-    period_map = {
-        '1m': 'Last 1 Month',
-        '3m': 'Last 3 Months',
-        '6m': 'Last 6 Months',
-        '1y': 'Last 1 Year',
-        '3y': 'Last 3 Years',
-        '5y': 'Last 5 Years',
-        'all': 'All Time'
-    }
-    return period_map.get(period, period)
-#
+def period_to_text(p):
+    return {
+            '1m':'Last 1 Month',
+            '3m':'Last 3 Months',
+            '6m':'Last 6 Months',
+            '1y':'Last 1 Year',
+            '3y':'Last 3 Years',
+            '5y':'Last 5 Years',
+            'all':'All Time'
+            }.get(p, p)
+
 def find_local_min_max(file_path, start, end, chunksize=100_000):
-    """Finds the local maximum and minimum between start and end dates."""
-    max_price = None
-    min_price = None
-    for chunk in pd.read_csv(
-        file_path,
-        usecols=["datetime", "high", "low"],
-        parse_dates=["datetime"],
-        chunksize=chunksize
-    ):
-        filtered = chunk[(chunk["datetime"] >= start) & (chunk["datetime"] <= end)]
-        if not filtered.empty:
-            max_price = max(max_price, filtered["high"].max()) if max_price is not None else filtered["high"].max()
-            min_price = min(min_price, filtered["low"].min()) if min_price is not None else filtered["low"].min()
-    return max_price, min_price
-#
+    max_p = min_p = None
+    for ch in pd.read_csv(file_path, usecols=["datetime","high","low"],
+                          parse_dates=["datetime"], chunksize=chunksize):
+        fil = ch[(ch["datetime"] >= start) & (ch["datetime"] <= end)]
+        if not fil.empty:
+            max_p = fil["high"].max() if max_p is None else max(max_p, fil["high"].max())
+            min_p = fil["low"].min()  if min_p is None else min(min_p, fil["low"].min())
+    return max_p, min_p
+
 def find_percentage_change(file_path, start, end, price_column="close", chunksize=100_000):
-    """Finds the percentage change of a given price column between start and end dates."""
-    start_value = None
-    end_value = None
-    for chunk in pd.read_csv(
-        file_path,
-        usecols=["datetime", price_column],
-        parse_dates=["datetime"],
-        chunksize=chunksize
-    ):
-        mask = (chunk["datetime"] >= start) & (chunk["datetime"] <= end)
-        filtered = chunk.loc[mask]
-        if not filtered.empty:
-            if start_value is None:
-                start_value = filtered.iloc[0][price_column]
-            end_value = filtered.iloc[-1][price_column]
-    if start_value is None or end_value is None:
-        print("No data found in the specified time range.")
-        return None
-    percentage_change = ((end_value - start_value) / start_value) * 100
-    return percentage_change
-#
+    start_val = end_val = None
+    for ch in pd.read_csv(file_path, usecols=["datetime",price_column],
+                          parse_dates=["datetime"], chunksize=chunksize):
+        mask = (ch["datetime"] >= start) & (ch["datetime"] <= end)
+        fil  = ch.loc[mask]
+        if not fil.empty:
+            if start_val is None: start_val = fil.iloc[0][price_column]
+            end_val = fil.iloc[-1][price_column]
+    if start_val is None or end_val is None: return None
+    return (end_val - start_val) / start_val * 100
 
-#%% SELF-RUN               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# %% SELF-RUN ─────────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    # Code to run when this module is executed directly
-    print(f"Running {module_name_gl} module directly")
-    visualize()
+    print(f"Running {module_name_gl} directly.")
 
-    # Add any testing or demonstration code here
-#
+    # quick internal tests
+    arr = np.arange(12).reshape(3, 4)
+    dp  = DataPlot(inputPath / "btcusd_1-min_data.csv")
+    dp.add_numpy_matrix(arr, "A", "B", "C", "D")
+    print("nonlocal_counter ->", dp.nonlocal_counter())
