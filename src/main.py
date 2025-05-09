@@ -87,20 +87,20 @@ if __name__ == "__main__":
         vs.visualize_bitcoin_price(bitcoinDataFile, period='5y')
         vs.visualize_bitcoin_price(bitcoinDataFile, period='all')
 
+        start, end = prd.prepare_dates("2023-01-01", "2023-02-01")
+        max_price, min_price = vs.find_local_min_max("data.csv", start, end)
+        percentage_change = vs.find_percentage_change("data.csv", start, end, price_column="close")
+        print(percentage_change)
+        print(max_price)
+        print(min_price)
+
         prd.export_csv(fileName)
         vs.visualize_yearly_volume_average(fileName)
     except Exception as e:
         logger.error(e)
-        # TO-DO: implement exception handling and logging here
+
     #
     print(f"\"{module_name_gl}\" module ends.")
-
-    start, end = prepare_dates("2023-01-01", "2023-02-01")
-    max_price, min_price = find_local_min_max("data.csv", start, end)
-    percentage_change = find_percentage_change("data.csv", start, end, price_column="close")
-    print(percentage_change)
-    print(max_price)
-    print(min_price)
 
 
 #
