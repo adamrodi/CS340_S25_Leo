@@ -66,19 +66,37 @@ inputPath = Path(__file__).parent.parent / 'Input'
 
 
 #Class definitions Start Here
+# Parent class 2
+class ConfigStats:
 
-class VisualizeStats:
-    def __init__(self, config=None):
+    __DEFAULT_CONFIG = {
+        'CLOSE_COLUMN': 'Close',
+        'OPEN_COLUMN': 'Open',
+        'VOLUME_COLUMN': 'Volume',
+        'DATE_COLUMN': 'Date',
+        'HIGH_PRICE_THRESHOLD': 50000,
+        'LOW_VOLUME_THRESHOLD': 1000000000,
+    }
+
+    def __init__(self, config=__DEFAULT_CONFIG):
         self.config = config or {}
     #
     
 #
-
-class StatsAnalyzer(VisualizeStats):
+# Child class 2.1
+class StatsAnalyzer(ConfigStats):
     def __init__(self):
         super().__init__()
     #
 
+    def load_from_pickle(self, filepath):
+        """Load a DataFrame from a pickle file."""
+        try:
+            self.df = pd.read_pickle(filepath)
+            print(f"DataFrame loaded successfully from {filepath}")
+        except Exception as e:
+            print(f"Failed to load pickle file: {e}")
+    #
     def joint_counts(self, df, col1, col2):
         return pd.crosstab(df[col1], df[col2])
     #
@@ -88,16 +106,49 @@ class StatsAnalyzer(VisualizeStats):
         return counts / counts.values.sum()
     #
 
+    def high_price_days(self, threshold=None):
+        """Return days where Close > configured threshold."""
+        if threshold is None:
+            threshold = self.config['HIGH_PRICE_THRESHOLD']
+        if self.df is not None:
+            return self.df[self.df[self.config['CLOSE_COLUMN']] > threshold]
+        else:
+            return pd.DataFrame()
+    #
+    def low_volume_days(self, threshold=None):
+        """Return days with Volume below the configured threshold."""
+        if threshold is None:
+            threshold = self.config['LOW_VOLUME_THRESHOLD']
+        if self.df is not None:
+            return self.df[self.df[self.config['VOLUME_COLUMN']] < threshold]
+        else:
+            return pd.DataFrame()
+    #
+
+    def visualize_high_price_days(self, threshold=None):
+        """Visualize days where Close > configured threshold."""
+        if threshold is None:
+            threshold = self.config['HIGH_PRICE_THRESHOLD']
+        high_price_days = self.high_price_days(threshold)
+        if not high_price_days.empty:
+            high_price_days.plot(x=self.config['DATE_COLUMN'], y=self.config['CLOSE_COLUMN'])
+        else:
+            print("No high price days to visualize.")
+    #
+
     def conditional_probabilities(self, df, col1, col2):
         return pd.crosstab(df[col1], df[col2], normalize='index')
     #
 
-    def basic_stats(self, df, column):
-        return {
-            'mean': df[column].mean(),
-            'median': df[column].median(),
-            'std': df[column].std()
-        }
+    def basic_stats(self, df, *columns):
+        results = {}
+        for col in columns:
+            results[col] = {
+                'mean': df[col].mean(),
+                'median': df[col].median(),
+                'std': df[col].std()
+            }
+        return results
     #
 
     def vector_ops(self, v1, v2):
@@ -119,6 +170,18 @@ class StatsAnalyzer(VisualizeStats):
             'permutations': list(permutations(values, 2)),
             'combinations': list(combinations(values, 2))
         }
+    #
+
+    def calc_yearly_volume_avg(fileName):
+        global outputPath
+        try:
+            data = read_csv_data(fileName)
+            data['year'] = data['datetime'].apply(lambda x: pd.to_datetime(x).year)
+            avgYearlyVolume = data.groupby('year')['Volume'].mean().reset_index()
+            avgYearlyVolume.columns = ['Year', 'Volume']
+            export_pickle(avgYearlyVolume, 'YearlyVolumeAvg')
+        except Exception as e:
+            raise e # propagate the error up the call stack to be handled in main.py
     #
 #
 
@@ -168,17 +231,6 @@ def export_csv(fileName):
 
 
 #   CALC FUNCTIONS
-def calc_yearly_volume_avg(fileName):
-    global outputPath
-    try:
-        data = read_csv_data(fileName)
-        data['year'] = pd.to_datetime(data['datetime']).dt.year
-        avgYearlyVolume = data.groupby('year')['Volume'].mean().reset_index()
-        avgYearlyVolume.columns = ['Year', 'Volume']
-        export_pickle(avgYearlyVolume, 'YearlyVolumeAvg')
-    except Exception as e:
-        raise e # propagate the error up the call stack to be handled in main.py
-    #
 
 def prepare_dates(start_date, end_date):
     """Converts start and end dates into pandas Timestamps."""
@@ -231,6 +283,33 @@ def filter_bitcoin_price_by_period(df, period='1y'):
                            (df['datetime'] <= end_date)]
     
     return filtered_df
+#
+
+def array_to_dataframe(array: np.ndarray, column_names=None) -> pd.DataFrame:
+    """
+    Converts a NumPy mxn array into a pandas DataFrame.
+    
+    Parameters:
+    array : np.ndarray
+        The input mxn array.
+    column_names : list or None
+        Optional list of column names. If None, defaults to integer labels.
+    
+    Returns:
+    pd.DataFrame
+        DataFrame constructed from the NumPy array.
+    """
+    m, n = array.shape
+    if column_names is None:
+        column_names = [f"Col{i}" for i in range(n)]
+    return pd.DataFrame(array, columns=column_names)
+#
+
+def evaluate_expression(expr: str):
+    try:
+        return eval(expr)
+    except Exception as e:
+        return f"Error: {e}"
 #
 
 #%% SELF-RUN               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -124,3 +124,65 @@
 2025-05-08 19:02:57,289 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_3y.png
 2025-05-08 19:03:10,394 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_5y.png
 2025-05-08 19:03:24,167 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_all.png
+2025-05-08 20:27:06,882 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_6m.png
+2025-05-08 20:27:20,064 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/hist_Timestamp.png
+2025-05-08 20:27:20,445 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/hist_Open.png
+2025-05-08 20:27:20,808 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/hist_High.png
+2025-05-08 20:27:21,175 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/hist_Low.png
+2025-05-08 20:27:21,539 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/hist_Close.png
+2025-05-08 20:27:21,982 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/hist_Volume.png
+2025-05-08 20:27:27,636 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/violin_Timestamp.png
+2025-05-08 20:27:31,185 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/box_Timestamp.png
+2025-05-08 20:27:36,644 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/violin_Open.png
+2025-05-08 20:27:40,476 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/box_Open.png
+2025-05-08 20:27:45,914 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/violin_High.png
+2025-05-08 20:27:49,733 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/box_High.png
+2025-05-08 20:27:55,206 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/violin_Low.png
+2025-05-08 20:27:58,999 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/box_Low.png
+2025-05-08 20:28:04,489 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/violin_Close.png
+2025-05-08 20:28:08,286 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/box_Close.png
+2025-05-08 20:28:13,582 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/violin_Volume.png
+2025-05-08 20:28:17,934 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/box_Volume.png
+2025-05-08 20:28:27,102 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/scatter_Timestamp_vs_Open.png
+2025-05-08 21:35:28,661 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_all.png
+2025-05-08 21:36:13,783 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_3y.png
+2025-05-08 21:36:33,976 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_5y.png
+2025-05-08 21:37:01,241 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/hist_Timestamp.png
+2025-05-08 21:37:01,618 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/hist_Open.png
+2025-05-08 21:37:01,993 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/hist_High.png
+2025-05-08 21:37:02,371 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/hist_Low.png
+2025-05-08 21:37:02,752 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/hist_Close.png
+2025-05-08 21:37:03,211 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/hist_Volume.png
+2025-05-08 21:37:08,986 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/violin_Timestamp.png
+2025-05-08 21:37:12,556 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/box_Timestamp.png
+2025-05-08 21:37:18,037 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/violin_Open.png
+2025-05-08 21:37:21,780 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/box_Open.png
+2025-05-08 21:37:27,280 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/violin_High.png
+2025-05-08 21:37:31,049 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/box_High.png
+2025-05-08 21:37:36,481 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/violin_Low.png
+2025-05-08 21:37:40,260 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/box_Low.png
+2025-05-08 21:37:45,847 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/violin_Close.png
+2025-05-08 21:37:49,584 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/box_Close.png
+2025-05-08 21:37:54,749 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/violin_Volume.png
+2025-05-08 21:37:59,354 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/box_Volume.png
+2025-05-08 21:38:08,706 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/scatter_Timestamp_vs_Open.png
+2025-05-08 21:48:44,960 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_all.png
+2025-05-08 21:48:57,523 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/hist_Timestamp.png
+2025-05-08 21:48:57,902 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/hist_Open.png
+2025-05-08 21:48:58,271 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/hist_High.png
+2025-05-08 21:48:58,645 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/hist_Low.png
+2025-05-08 21:48:59,018 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/hist_Close.png
+2025-05-08 21:48:59,461 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/hist_Volume.png
+2025-05-08 21:49:05,419 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/violin_Timestamp.png
+2025-05-08 21:49:08,925 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/box_Timestamp.png
+2025-05-08 21:49:14,469 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/violin_Open.png
+2025-05-08 21:49:18,332 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/box_Open.png
+2025-05-08 21:49:23,899 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/violin_High.png
+2025-05-08 21:49:27,752 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/box_High.png
+2025-05-08 21:49:33,254 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/violin_Low.png
+2025-05-08 21:49:37,187 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/box_Low.png
+2025-05-08 21:49:42,832 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/violin_Close.png
+2025-05-08 21:49:46,750 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/box_Close.png
+2025-05-08 21:49:51,851 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/violin_Volume.png
+2025-05-08 21:49:56,316 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/box_Volume.png
+2025-05-08 21:50:05,902 - visualize - INFO: Saved /Users/adam/CS340_S25_Leo/Output/scatter_Timestamp_vs_Open.png

@@ -13,14 +13,10 @@ def displayMenu():
     print("OPTIONS MENU".center(40))
     print("=" * 40)
     print("1. Visualize BitCoin price by date")
-    print("2. Run Test Case 2")
-    print("3. Run Test Case 3")
-    print("4. Run Test Case 4")
-    print("5. Run Test Case 5")
-    print("6. Run Test Case 6")
+    print("2. View distribution plots (hist, violin, box, scatter)")
     print("0. Exit")
     print("=" * 40)
-
+#
 
 def getChoice():
     while True:
@@ -38,23 +34,14 @@ def displayChoice(choice):
     if choice == 1:
         option1()
     elif choice == 2:
-        print("Choice 2")
-    elif choice == 3:
-        print("Choice 3")
-    elif choice == 4:
-        print("Choice 4")
-    elif choice == 5:
-        print("Choice 5")
-    elif choice == 6:
-        print("Choice 6")
+        option2()
     else:
         print("Exit program")
-
+#
 # -------------------------------------------------------------------------
 def option1():
     """
     • Ask for a time-period and plot price by date (existing behaviour)
-    • THEN offer user to view distribution plots (hist, violin, box, scatter)
     """
     bitcoinDataFile = 'btcusd_1-min_data'           
     input_dir = Path(__file__).parent.parent / 'Input'
@@ -76,27 +63,37 @@ def option1():
                 print(f"Error: {e} please try again.")
         else:
             print("Invalid period.\n")
+        #
+    #
+#
 
-    show_more = input("Show column distribution plots? (y/n): ").strip().lower()
-    if show_more == 'y':
-        try:
-            dp = DataPlot(csv_path)
+def option2():
+    """
+    • Run test case 3
+    • view distribution plots (hist, violin, box, scatter)
+    """
+    try:
+        bitcoinDataFile = 'btcusd_1-min_data'           
+        input_dir = Path(__file__).parent.parent / 'Input'
+        csv_path = input_dir / f"{bitcoinDataFile}.csv"
+        dp = DataPlot(csv_path)
 
-            # Histogram for every numeric column
-            dp.hist_each_column(dp.df, save=True)
+        # Histogram for every numeric column
+        dp.hist_each_column(dp.df, save=True)
 
-            # Violin + Box for each numeric column
-            num_cols = dp.df.select_dtypes(include='number').columns
-            for col in num_cols:
-                dp.plot(col, kind='violin', save=True)
-                dp.plot(col, kind='box',    save=True)
+        # Violin + Box for each numeric column
+        num_cols = dp.df.select_dtypes(include='number').columns
+        for col in num_cols:
+            dp.plot(col, kind='violin', save=True)
+            dp.plot(col, kind='box',    save=True)
 
-            # Scatter plot: first two numeric columns, if available
-            if len(num_cols) >= 2:
-                dp.plot(num_cols[0], y=num_cols[1], kind='scatter', save=True)
+        # Scatter plot: first two numeric columns, if available
+        if len(num_cols) >= 2:
+            dp.plot(num_cols[0], y=num_cols[1], kind='scatter', save=True)
 
-            print(f"Saved plots to: {outputPath}")
-        except Exception as e:
-            logger.error(f"Failed to create distribution plots: {e}")
-            print(f"Unable to generate distribution plots ({e}).")
+        print(f"Saved plots to: {outputPath}")
+    except Exception as e:
+        logger.error(f"Failed to create distribution plots: {e}")
+        print(f"Unable to generate distribution plots ({e}).")
     print("=" * 40)
+#

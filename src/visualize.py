@@ -52,7 +52,7 @@ class VisualizationHandler:
         return df[df[column] == value] 
 
 
-# ─────────────────────────────────────────────────────────────────────────
+# Parent class 1
 class ConfigPlot(VisualizationHandler):
     """Parent-1 : config store, histogram + line helpers, simple query."""
 
@@ -75,7 +75,7 @@ class ConfigPlot(VisualizationHandler):
                 logger.info(f"Saved {fname}")
             if show: plt.show()
             plt.close()
-
+    #
     def line_each_column(self, df: pd.DataFrame, save: bool = False, show: bool = False):
         for col in df.select_dtypes(include=np.number):
             plt.figure(figsize=self.config["figsize"])
@@ -87,23 +87,23 @@ class ConfigPlot(VisualizationHandler):
                 logger.info(f"Saved {fname}")
             if show: plt.show()
             plt.close()
-
+    #
     # ---------- query ----------
     def query_simple(self, df: pd.DataFrame, column, value):
         return df.loc[df[column] == value]
 
 
-# ─────────────────────────────────────────────────────────────────────────
+# Child class 1.1
 class DataPlot(ConfigPlot):
 
-    _private_flag = True
+    _flag = True
 
     def __init__(self, filepath: str, config=None):
         super().__init__(config)
         self.df = pd.read_csv(filepath)
 
     # ---------- visualisations ----------
-    def plot(self, x, y=None, *, kind="violin", save=False, show=False):
+    def plot(self, x, y=None, *, kind="violin", save=True, show=False):
         plt.figure(figsize=self.config["figsize"])
         if kind == "violin":
             sns.violinplot(y=self.df[x])
@@ -135,14 +135,16 @@ class DataPlot(ConfigPlot):
                               columns=list(col_names) or [f"col_{i}" for i in range(cols)],
                               **kwargs)
 
-        # demonstrate non-local variable
+        # append to existing DataFrame
         def _append():
             nonlocal new_df
             self.df = pd.concat([self.df, new_df], ignore_index=True)
+        #
         _append()
         logger.info("NumPy matrix appended.")
         return new_df
-    
+    #
+
     def eval_filter(self, expr: str):
         namespace = {"df": self.df, "np": np, "pd": pd}
         mask = eval(expr, {"__builtins__": {}}, namespace)      # using eval()
@@ -160,84 +162,7 @@ class DataPlot(ConfigPlot):
             cnt += 1
         for _ in range(3): inc()
         return cnt
-
-
-# ─────────────────────────────────────────────────────────────────────────
-class StatsHandler:
-    def __init__(self, config=None):
-        self.config = config or {}
-
-    # probability helpers
-    @staticmethod
-    def joint_counts(df, a, b):             
-        return pd.crosstab(df[a], df[b])
-    
-    @staticmethod
-    def joint_probabilities(df, a, b):
-        c = StatsHandler.joint_counts(df, a, b); 
-        return c / c.values.sum()
-        
-    @staticmethod
-    def conditional_probabilities(df, given, target):
-        return pd.crosstab(df[given], df[target], normalize="index")
-
-    # central tendency
-    @staticmethod
-    def describe_numeric(df, col):
-        s = df[col].dropna(); 
-        return {"mean": s.mean(), "median": s.median(), "std": s.std()}
-
-    # vector ops
-    @staticmethod
-    def position_vector(a, b): 
-        return np.array(b) - np.array(a)
-    
-    @staticmethod
-    def unit_vector(v):         
-        v = np.asarray(v); 
-        return v / np.linalg.norm(v)
-    
-    @staticmethod
-    def projection(u, v):       
-        vu = StatsHandler.unit_vector(v); 
-        return np.dot(u, vu) * vu
-    
-    @staticmethod
-    def dot_angle(u, v):
-        dot = np.dot(u, v)
-        ang = np.degrees(np.arccos(dot / (np.linalg.norm(u) * np.linalg.norm(v))))
-        return dot, ang
-    
-    @staticmethod
-    def orthogonal(u, v, tol=1e-8): 
-        return abs(np.dot(u, v)) < tol
-
-    # categorical
-    @staticmethod
-    def unique_values(df, col):            
-        return df[col].dropna().unique()
-    
-    @staticmethod
-    def permutations_of(values, r=None):   
-        return list(itertools.permutations(values, r or len(values)))
-    
-    @staticmethod
-    def combinations_of(values, r=2):      
-        return list(itertools.combinations(values, r))
-
-
-class AdvancedStats(StatsHandler):
-    def __init__(self, pickle_path, config=None):
-        super().__init__(config); self.df = pd.read_pickle(pickle_path)
-
-    joint_counts  = lambda self, a, b: super().joint_counts(self.df, a, b)
-    joint_probs   = lambda self, a, b: super().joint_probabilities(self.df, a, b)
-    cond_probs    = lambda self, g, t: super().conditional_probabilities(self.df, g, t)
-    describe_numeric = lambda self, c:  super().describe_numeric(self.df, c)
-
-    def plot_hist(self, col):
-        plt.figure(figsize=(8, 4)); self.df[col].plot.hist(grid=True)
-        plt.title(f"Histogram of {col}"); plt.show()
+#
 
 # %% STAND-ALONE FUNCTIONS ────────────────────────────────────────────────
 def visualize(): pass
