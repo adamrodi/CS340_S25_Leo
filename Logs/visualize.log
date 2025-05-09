@@ -36,9 +36,91 @@
 2025-04-27 21:55:37,891 - visualize - INFO: Price chart saved to C:\Users\ajsku\OneDrive\Documents\GitHub\CS340_S25_Leo\Output\Bitcoin_Price_1m.png
 2025-04-27 22:00:24,166 - visualize - INFO: Price chart saved to C:\Users\ajsku\OneDrive\Documents\GitHub\CS340_S25_Leo\Output\Bitcoin_Price_1m.png
 2025-04-27 22:10:37,147 - visualize - INFO: Price chart saved to C:\Users\ajsku\OneDrive\Documents\GitHub\CS340_S25_Leo\Output\Bitcoin_Price_1m.png
-2025-05-08 19:06:49,657 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_3m.png
-2025-05-08 19:06:55,489 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_6m.png
-2025-05-08 19:07:01,327 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_1y.png
-2025-05-08 19:07:07,325 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_3y.png
-2025-05-08 19:07:13,317 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_5y.png
-2025-05-08 19:07:19,460 - visualize - INFO: Price chart saved to /Users/adam/CS340_S25_Leo/Output/Bitcoin_Price_all.png
+2025-05-08 17:28:11,575 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_6m.png
+2025-05-08 17:28:24,635 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_3m.png
+2025-05-08 17:28:37,830 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_6m.png
+2025-05-08 17:28:52,812 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_1y.png
+2025-05-08 17:29:14,644 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_3y.png
+2025-05-08 17:44:05,986 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_6m.png
+2025-05-08 17:44:19,101 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_3m.png
+2025-05-08 17:44:32,665 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_6m.png
+2025-05-08 17:44:46,571 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_1y.png
+2025-05-08 17:53:46,936 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_5y.png
+2025-05-08 17:53:59,796 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_3m.png
+2025-05-08 17:54:13,567 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_6m.png
+2025-05-08 17:59:45,639 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_3m.png
+2025-05-08 18:09:33,795 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_6m.png
+2025-05-08 18:11:49,475 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_1y.png
+2025-05-08 18:11:59,429 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\hist_Timestamp.png
+2025-05-08 18:12:41,080 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\hist_Open.png
+2025-05-08 18:12:46,423 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\hist_High.png
+2025-05-08 18:12:49,207 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\hist_Low.png
+2025-05-08 18:12:51,683 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\hist_Close.png
+2025-05-08 18:12:54,434 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\hist_Volume.png
+2025-05-08 18:13:22,585 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\violin_Timestamp.png
+2025-05-08 18:13:32,828 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\box_Timestamp.png
+2025-05-08 18:14:02,967 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\violin_Open.png
+2025-05-08 18:14:15,176 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\box_Open.png
+2025-05-08 18:14:55,291 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\violin_High.png
+2025-05-08 18:15:09,286 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\box_High.png
+2025-05-08 18:18:24,494 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_5y.png
+2025-05-08 18:18:58,897 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\violin_Timestamp.png
+2025-05-08 18:19:05,227 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\box_Timestamp.png
+2025-05-08 18:19:30,695 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\violin_Open.png
+2025-05-08 18:19:38,356 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\box_Open.png
+2025-05-08 18:20:04,508 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\violin_High.png
+2025-05-08 18:20:12,323 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\box_High.png
+2025-05-08 18:20:37,192 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\violin_Low.png
+2025-05-08 18:20:47,244 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\box_Low.png
+2025-05-08 18:32:16,068 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_3m.png
+2025-05-08 18:32:28,128 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\hist_Timestamp.png
+2025-05-08 18:32:28,558 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\hist_Open.png
+2025-05-08 18:32:29,021 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\hist_High.png
+2025-05-08 18:32:29,442 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\hist_Low.png
+2025-05-08 18:32:29,872 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\hist_Close.png
+2025-05-08 18:32:30,299 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\hist_Volume.png
+2025-05-08 18:32:52,632 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\violin_Timestamp.png
+2025-05-08 18:32:58,859 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\box_Timestamp.png
+2025-05-08 18:33:23,167 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\violin_Open.png
+2025-05-08 18:33:30,597 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\box_Open.png
+2025-05-08 18:33:54,988 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\violin_High.png
+2025-05-08 18:34:02,457 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\box_High.png
+2025-05-08 18:34:27,023 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\violin_Low.png
+2025-05-08 18:34:34,421 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\box_Low.png
+2025-05-08 18:34:58,946 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\violin_Close.png
+2025-05-08 18:35:06,432 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\box_Close.png
+2025-05-08 18:35:38,967 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\violin_Volume.png
+2025-05-08 18:35:48,662 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\box_Volume.png
+2025-05-08 18:36:26,837 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\scatter_Timestamp_vs_Open.png
+2025-05-08 18:46:15,914 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_3m.png
+2025-05-08 18:46:30,252 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\hist_Timestamp.png
+2025-05-08 18:46:30,664 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\hist_Open.png
+2025-05-08 18:46:31,138 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\hist_High.png
+2025-05-08 18:46:31,571 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\hist_Low.png
+2025-05-08 18:46:31,995 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\hist_Close.png
+2025-05-08 18:46:32,423 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\hist_Volume.png
+2025-05-08 18:46:54,711 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\violin_Timestamp.png
+2025-05-08 18:47:01,214 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\box_Timestamp.png
+2025-05-08 18:47:25,465 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\violin_Open.png
+2025-05-08 18:47:32,882 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\box_Open.png
+2025-05-08 18:47:57,289 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\violin_High.png
+2025-05-08 18:48:04,677 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\box_High.png
+2025-05-08 18:48:29,363 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\violin_Low.png
+2025-05-08 18:48:37,398 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\box_Low.png
+2025-05-08 18:49:04,756 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\violin_Close.png
+2025-05-08 18:49:12,230 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\box_Close.png
+2025-05-08 18:49:42,001 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\violin_Volume.png
+2025-05-08 18:49:51,921 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\box_Volume.png
+2025-05-08 18:50:30,398 - visualize - INFO: Saved C:\Users\bisho\CS340_S25_Leo\Output\scatter_Timestamp_vs_Open.png
+2025-05-08 18:59:49,358 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_3m.png
+2025-05-08 19:00:03,174 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_6m.png
+2025-05-08 19:00:16,513 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_1y.png
+2025-05-08 19:00:29,620 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_3y.png
+2025-05-08 19:00:43,511 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_5y.png
+2025-05-08 19:00:58,252 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_all.png
+2025-05-08 19:02:18,414 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_3m.png
+2025-05-08 19:02:31,277 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_6m.png
+2025-05-08 19:02:43,882 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_1y.png
+2025-05-08 19:02:57,289 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_3y.png
+2025-05-08 19:03:10,394 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_5y.png
+2025-05-08 19:03:24,167 - visualize - INFO: Price chart saved to C:\Users\bisho\CS340_S25_Leo\Output\Bitcoin_Price_all.png
